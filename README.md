@@ -36,7 +36,7 @@ Bash
 # Runs the app in development mode
 npm start
 ```
-📂 Project Structure
+### 📂 Project Structure
 ```
 /src/main.js: The Electron Main process (handles windows, system events).
 
@@ -46,16 +46,16 @@ npm start
 
 /assets/: Icons, themes, and static images.
 ```
-🤝 How to Contribute (The "Slayd" Way)
+## 🤝 How to Contribute (The "Slayd" Way)
 We love contributors! Whether you're fixing a bug, building a massive new feature, or triaging bugs, here is how you get your code into the project:
 
-1. Fork and Clone
+### 1. Fork and Clone
 Click the Fork button at the top of the repository to create your own copy.You can fork the repository [here.](https://github.com/SlaydDev/SlaydX/fork/)
 
-2. Create a Feature Branch
+### 2. Create a Feature Branch
 Always work on a new branch so your main stays clean.
 
-3. Make Your Edits
+### 3. Make Your Edits
 Follow our coding standards:
 
 - Use functional React components.
@@ -64,21 +64,21 @@ Follow our coding standards:
 
 - Document new features in the /docs folder.
 
-4. Commit and Push (Git)
+### 4. Commit and Push (Git)
 ``` Bash
 git add .
 git commit -m "feat: add amazing new feature"
 git push origin feature/amazing-new-feature
 ```
-5. Open a Pull Request (PR)
+### 5. Open a Pull Request (PR)
 Go to the original SlaydX repository on GitHub. You will see a prompt to "Compare & pull request." Describe your changes clearly and submit!
 
-📜 License
+## 📜 License
 SlaydX is open-source software licensed under the [MIT License](https://mit-license.org/). You are free to fork and modify it.
 
-📞 Community & Feedback
+## 📞 Community & Feedback
 Found a bug? Open an [Issue](https://github.com/SlaydDev/SlaydX/issues)
 
 Want to chat? Join our Community! (Link coming soon!)
 
-Developed with ❤️ by the SlaydX Community.
+`Developed with ❤️ by the SlaydX Community.`
