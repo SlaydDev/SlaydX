@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 async function aiReview(diffText) {
   try {
     console.log("🧠 Sending request to Groq...");
@@ -13,7 +15,15 @@ async function aiReview(diffText) {
         messages: [
           {
             role: "system",
-            content: "Return ONLY JSON: {score, decision, reasons}"
+            content: `
+Return ONLY valid JSON:
+{
+  "score": number,
+  "decision": "APPROVED" | "REVIEW" | "BLOCK",
+  "reasons": [string]
+}
+No markdown. No extra text.
+`
           },
           {
             role: "user",
@@ -49,3 +59,5 @@ async function aiReview(diffText) {
     return null;
   }
 }
+
+module.exports = { aiReview };
