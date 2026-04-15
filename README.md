@@ -1,4 +1,4 @@
-# 🛡️ SlaydX Browser
+# SlaydX Browser
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/Version-Alpha_1.0.0-cyan.svg)]()
@@ -26,7 +26,7 @@ To begin working on SlaydX, you will need [Node.js](https://nodejs.org/) and [Gi
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/SlaydDev/SlaydX.git](https://github.com/YOUR_USERNAME/SlaydX.git)
+git clone https://github.com/SlaydDev/SlaydX.git
 cd SlaydX
 2. Install Dependencies
 Bash
