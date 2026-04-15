@@ -11,11 +11,7 @@ Built using **Node.js**, **Electron**, and **React**, SlaydX combines the raw po
 
 ## 🚀 Key Features
 
-* **Core Foundation**: Robust session persistence and crash recovery.
-* **Pro Tab Management**: Tab grouping, pinning, and "Sleep Mode" to save RAM.
-* **Omnibox Commands**: Use the address bar to trigger browser actions (e.g., `set:theme dark`).
-* **Privacy Shield**: Built-in tracking protection and third-party block controls.
-* **Extensibility**: A dedicated framework for custom add-ons and UI themes.
+SCRREW DIS PROJECT HAHAHHA
 * **Internal Protocols**: Fast access to `slaydx://settings`, `slaydx://extensions`, and more.
 
 ---
