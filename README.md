@@ -1,7 +1,7 @@
 # SlaydX Browser
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/badge/Version-Alpha_1.0.0-cyan.svg)]()
+[![Build Status](https://img.shields.io/badge/Version-Alpha_not.started-cyan.svg)]()
 
 **SlaydX** is a next-generation web browser built from the ground up for power users. While modern browsers have become bloated and restrictive, SlaydX prioritizes a "no-skip" feature philosophy: if a power user needs it, we build it.
 
