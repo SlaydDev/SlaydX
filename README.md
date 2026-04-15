@@ -24,7 +24,7 @@ Built using **Node.js**, **Electron**, and **React**, SlaydX combines the raw po
 
 To begin working on SlaydX, you will need [Node.js](https://nodejs.org/) and [Git](https://git-scm.com/) installed on your machine.
 
-### 1. Clone the Repository
+### 1. Clone the SlaydX Repository
 ```bash
 git clone https://github.com/SlaydDev/SlaydX.git
 cd SlaydX
