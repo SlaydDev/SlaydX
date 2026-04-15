@@ -1,5 +1,7 @@
 async function aiReview(diffText) {
   try {
+    console.log("🧠 Sending request to Groq...");
+
     const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -11,15 +13,7 @@ async function aiReview(diffText) {
         messages: [
           {
             role: "system",
-            content: `
-Return ONLY valid JSON:
-{
-  "score": number,
-  "decision": "APPROVED" | "REVIEW" | "BLOCK",
-  "reasons": [string]
-}
-No markdown. No explanation. Only JSON.
-`
+            content: "Return ONLY JSON: {score, decision, reasons}"
           },
           {
             role: "user",
@@ -30,24 +24,28 @@ No markdown. No explanation. Only JSON.
       })
     });
 
+    console.log("📡 Response status:", res.status);
+
     const text = await res.text();
 
-    console.log("🧠 RAW GROQ RESPONSE:");
+    console.log("📦 RAW RESPONSE:");
     console.log(text);
 
-    const parsed = JSON.parse(text);
+    const json = JSON.parse(text);
 
-    const content = parsed.choices?.[0]?.message?.content;
-
-    if (!content) throw new Error("No AI content returned");
+    const content = json?.choices?.[0]?.message?.content;
 
     console.log("🧠 AI CONTENT:");
     console.log(content);
 
+    if (!content) {
+      throw new Error("No AI content returned");
+    }
+
     return JSON.parse(content);
 
-  } catch (e) {
-    console.log("❌ AI ERROR:", e.message);
+  } catch (err) {
+    console.log("❌ GROQ ERROR:", err.message);
     return null;
   }
 }
