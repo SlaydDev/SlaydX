@@ -26,7 +26,7 @@ To begin working on SlaydX, you will need [Node.js](https://nodejs.org/) and [Gi
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/YOUR_USERNAME/SlaydX.git](https://github.com/YOUR_USERNAME/SlaydX.git)
+git clone [https://github.com/SlaydDev/SlaydX.git](https://github.com/YOUR_USERNAME/SlaydX.git)
 cd SlaydX
 2. Install Dependencies
 Bash
@@ -46,8 +46,8 @@ npm start
 
 /assets/: Icons, themes, and static images.
 ```
-## 🤝 How to Contribute (The "Slayd" Way)
-We love contributors! Whether you're fixing a bug, building a massive new feature, or triaging bugs, here is how you get your code into the project:
+## 🤝 How to Contribute
+We love contributors! Whether you're fixing a bug, building a massive new feature, or helping to triage bugs, here is how **you** can get your code (or support!) into the project:
 
 ### 1. Fork and Clone
 Click the Fork button at the top of the repository to create your own copy.You can fork the repository [here.](https://github.com/SlaydDev/SlaydX/fork/)
