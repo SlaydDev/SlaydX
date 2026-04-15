@@ -1,4 +1,4 @@
-# 🛡️ SlaydX Browser
+# SlaydX Browser
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/Version-Alpha_1.0.0-cyan.svg)]()
