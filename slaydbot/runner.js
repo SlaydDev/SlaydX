@@ -1,3 +1,6 @@
+console.log("=== SLAYDBOT DEBUG ===");
+console.log("GROQ exists:", !!process.env.GROQ_API_KEY);
+console.log("GROQ length:", process.env.GROQ_API_KEY?.length);
 const github = require("@actions/github");
 const fetch = require("node-fetch");
 
