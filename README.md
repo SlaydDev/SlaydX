@@ -5,7 +5,7 @@
 
 **SlaydX** is a next-generation web browser built from the ground up for power users. While modern browsers have become bloated and restrictive, SlaydX prioritizes a "no-skip" feature philosophy: if a power user needs it, we build it.
 
-Built using **Node.js**, **Electron**, and **React**, SlaydX combines the raw power of the Chromium engine with a highly customizable, modern UI.
+Built using **Node.js** and **Electron**, SlaydX combines the raw power of the Chromium engine with a highly customizable, modern UI.
 
 ---
 
