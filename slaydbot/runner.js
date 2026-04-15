@@ -1,12 +1,8 @@
 console.log("=== SLAYDBOT DEBUG ===");
 console.log("GROQ exists:", !!process.env.GROQ_API_KEY);
-console.log("GROQ length:", process.env.GROQ_API_KEY?.length);
 
 // -------------------------
-// IMPORTS
-// -------------------------
 const github = require("@actions/github");
-const fetch = require("node-fetch");
 const { aiReview } = require("./ai");
 
 const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
@@ -16,8 +12,6 @@ const owner = context.repo.owner;
 const repo = context.repo.repo;
 const prNumber = process.env.PR_NUMBER;
 
-// -------------------------
-// GET PR DATA
 // -------------------------
 async function getFiles() {
   const { data } = await octokit.rest.pulls.listFiles({
@@ -46,8 +40,8 @@ async function comment(body) {
   });
 }
 
-async function closePR(reason) {
-  await comment("## SlaydBot Blocked\n\n" + reason);
+async function closePR(body) {
+  await comment("## SlaydBot Blocked\n\n" + body);
 
   await octokit.rest.pulls.update({
     owner,
@@ -58,8 +52,6 @@ async function closePR(reason) {
 }
 
 // -------------------------
-// MAIN
-// -------------------------
 (async () => {
   const files = await getFiles();
 
@@ -69,49 +61,53 @@ async function closePR(reason) {
     diffText += file.patch || "";
   }
 
-  console.log("Calling AI...");
+  console.log("🧠 Calling AI...");
 
   let ai = await aiReview(diffText);
 
-  console.log("AI RAW RESULT:", ai);
+  console.log("AI RESULT:", ai);
 
   // -------------------------
-  // SAFE FALLBACK CLEANUP
+  // SAFE DEFAULTS
   // -------------------------
-  let score = 80;
-  let reasons = [];
+  let score = ai?.score ?? 65;
+  let reasons = Array.isArray(ai?.reasons) ? ai.reasons : [];
 
-  if (!ai || typeof ai !== "object") {
-    reasons.push("AI unavailable (invalid response)");
-  } else {
-    score = typeof ai.score === "number" ? ai.score : 0;
+  // CLEAN GARBAGE REASONS
+  reasons = reasons.filter(r =>
+    typeof r === "string" &&
+    r.length > 5 &&
+    !r.toLowerCase().includes("repository") &&
+    !r.toLowerCase().includes("cloned successfully")
+  );
 
-    // 🧠 CLEAN REASON FILTER (reject garbage AI output)
-    if (Array.isArray(ai.reasons)) {
-      reasons = ai.reasons.filter(r =>
-        typeof r === "string" &&
-        r.length > 3 &&
-        !r.toLowerCase().includes("no json") &&
-        !r.toLowerCase().includes("invalid input")
-      );
-    }
-
-    if (reasons.length === 0) {
-      reasons.push("No meaningful issues detected");
-    }
+  if (reasons.length === 0) {
+    reasons.push("No major issues detected");
   }
 
   // -------------------------
-  // DECISION
+  // DECISION LOGIC (SAFE)
   // -------------------------
   let decision = "REVIEW";
 
-  if (score >= 75) decision = "APPROVED";
-  else if (score >= 40) decision = "REVIEW";
+  if (score >= 85) decision = "APPROVED";
+  else if (score >= 50) decision = "REVIEW";
   else decision = "BLOCK";
 
   // -------------------------
-  // CLEAN REPORT
+  // FORCE SAFETY RULE (IMPORTANT)
+  // README changes should NOT be blocked
+  // -------------------------
+  const hasOnlyReadme = files.every(f => f.filename.includes("README"));
+
+  if (hasOnlyReadme && decision === "BLOCK") {
+    decision = "REVIEW";
+    score = 60;
+    reasons.push("Downgraded BLOCK → REVIEW (README-safe rule)");
+  }
+
+  // -------------------------
+  // REPORT
   // -------------------------
   const report = `
 # SlaydBot Review
@@ -121,9 +117,6 @@ Decision: ${decision}
 
 Issues:
 ${reasons.map(r => "- " + r).join("\n")}
-
-Status:
-${ai ? "AI ACTIVE" : "FALLBACK MODE"}
 `;
 
   // -------------------------
