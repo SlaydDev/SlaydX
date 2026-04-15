@@ -1,28 +1,24 @@
-name: SlaydBot
+name: SlaydBot PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-
-permissions:
-  pull-requests: write
-  issues: write
-  contents: read
+    types: [opened, synchronize]
 
 jobs:
   bot:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Install bot dependencies
+        run: npm install
+        working-directory: slaydbot
 
-      - run: npm install
-
-      - run: node scripts/slaydbot.js
+      - name: Run SlaydBot
+        run: node runner.js
+        working-directory: slaydbot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.number }}
