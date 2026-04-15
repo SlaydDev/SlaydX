@@ -1,8 +1,13 @@
 console.log("=== SLAYDBOT DEBUG ===");
 console.log("GROQ exists:", !!process.env.GROQ_API_KEY);
 console.log("GROQ length:", process.env.GROQ_API_KEY?.length);
+
+// -------------------------
+// IMPORTS
+// -------------------------
 const github = require("@actions/github");
 const fetch = require("node-fetch");
+const { aiReview } = require("./ai"); // ✅ FIXED IMPORT
 
 const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 const context = github.context;
@@ -10,55 +15,6 @@ const context = github.context;
 const owner = context.repo.owner;
 const repo = context.repo.repo;
 const prNumber = process.env.PR_NUMBER;
-
-// -------------------------
-// 🧠 GROQ AI REVIEW
-// -------------------------
-async function aiReview(diffText) {
-  try {
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "llama-3.1-70b-versatile",
-        messages: [
-          {
-            role: "system",
-            content: `
-You are SlaydBot AI reviewer.
-
-Return ONLY valid JSON:
-{
-  "score": number (0-100),
-  "decision": "APPROVED" | "REVIEW" | "BLOCK",
-  "reasons": [string]
-}
-
-Be strict on:
-- broken code
-- bad README
-- unsafe patterns
-- messy architecture
-`
-          },
-          {
-            role: "user",
-            content: diffText
-          }
-        ],
-        temperature: 0.2
-      })
-    });
-
-    const data = await res.json();
-    return JSON.parse(data.choices[0].message.content);
-  } catch (e) {
-    return null;
-  }
-}
 
 // -------------------------
 // 📦 GET PR DATA
@@ -136,7 +92,9 @@ async function closePR(reason) {
   // -------------------------
   // ⚡ AI REVIEW
   // -------------------------
+  console.log("🧠 Calling AI...");
   let ai = await aiReview(diffText);
+  console.log("🧠 AI RESULT:", ai);
 
   // -------------------------
   // 🧮 FALLBACK RULES
@@ -165,9 +123,6 @@ async function closePR(reason) {
     reasons = ai.reasons;
   }
 
-  // -------------------------
-  // 🧠 DECISION
-  // -------------------------
   let decision = ai?.decision || "REVIEW";
 
   if (score >= 75) decision = "APPROVED";
@@ -189,11 +144,6 @@ async function closePR(reason) {
 
 ## 🧠 Reasons
 ${reasons.length ? reasons.map(r => `- ${r}`).join("\n") : "- None"}
-
----
-
-## ⚡ AI Status
-${ai ? "Groq AI active 🧠" : "Fallback mode ⚙️"}
 
 ---
 
