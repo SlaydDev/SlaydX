@@ -2,7 +2,9 @@
   "name": "slaydbot",
   "version": "1.0.0",
   "private": true,
+  "type": "commonjs",
   "dependencies": {
-    "@actions/github": "^6.0.0"
+    "@actions/github": "^6.0.0",
+    "node-fetch": "^2.7.0"
   }
 }
