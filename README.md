@@ -65,7 +65,7 @@ Follow our coding standards:
 - Document new features in the /docs folder.
 
 ### 4. Commit and Push (Git)
-``` Bash
+``` Git
 git add .
 git commit -m "feat: add amazing new feature"
 git push origin feature/amazing-new-feature
